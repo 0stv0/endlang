@@ -1,3 +1,7 @@
 node_modules
 .DS_Store
 dist
+src/handlers
+src/test.ts
+endpoints
+docs

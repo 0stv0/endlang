@@ -12,6 +12,9 @@
   "exports": {
     ".": "./dist/index.js"
   },
+  "scripts": {
+    "dev": "tsc && node ./dist/test.js"
+  },
   "types": "./dist/index.d.ts",
   "module": "./dist/index.js",
   "main": "./dist/index.js"
