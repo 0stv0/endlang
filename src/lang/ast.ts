@@ -29,6 +29,16 @@ interface BodyNode
     type: 'BodyStatement';
     required: string[]
 };
+interface QueryNode
+{
+    type: 'QueryStatement',
+    required: string[]
+};
+interface DescNode
+{
+    type: 'DescStatement',
+    description: string;
+};
 
 // LOGIC
 interface AST {
@@ -38,7 +48,9 @@ interface AST {
         MiddleNode |
         HandlerNode |
         GroupNode |
-        BodyNode
+        BodyNode |
+        QueryNode |
+        DescNode
     )[]
 };
 const getDefaultAST = (): AST =>
@@ -56,5 +68,7 @@ export type {
     MiddleNode,
     HandlerNode,
     GroupNode,
-    BodyNode
+    BodyNode,
+    QueryNode,
+    DescNode
 };

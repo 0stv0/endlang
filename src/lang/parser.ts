@@ -111,6 +111,23 @@ class Parser {
                 group: groupToken.value
             };
         }
+        else if (currentToken.type === 'DESC')
+        {
+            this.cursor++;
+            let descToken: Token = this.tokens[this.cursor] as Token;
+            if (!descToken || descToken.type !== 'CONTENT')
+                throw new Error('Parser error: Expected content after desc statement!');
+            this.cursor++;
+            let semicolon: Token = this.tokens[this.cursor] as Token;
+            if (!semicolon || semicolon.type !== 'SEMICOLON')
+                throw new Error('Parser error: Expected semicolon after desc statement!');
+            this.cursor++;
+
+            return {
+                type: 'DescStatement',
+                description: descToken.value
+            };
+        }
         else if (currentToken.type === 'BODY')
         {
             this.cursor++;
@@ -126,6 +143,24 @@ class Parser {
             let body: string = bodyToken.value;
             return {
                 type: 'BodyStatement',
+                required: body.replaceAll('{', '').replaceAll('}', '').replaceAll(' ', '').split(',').filter(i => i !== '')
+            };
+        }
+        else if (currentToken.type === 'QUERY')
+        {
+            this.cursor++;
+            let queryToken: Token = this.tokens[this.cursor] as Token;
+            if (!queryToken || queryToken.type !== 'CONTENT')
+                throw new Error('Parser error: Expected body after query statement!');
+            this.cursor++;
+            let semicolon: Token = this.tokens[this.cursor] as Token;
+            if (!semicolon || semicolon.type !== 'SEMICOLON')
+                throw new Error('Parser error: Expected semicolon after query statement!');
+            this.cursor++;
+
+            let body: string = queryToken.value;
+            return {
+                type: 'QueryStatement',
                 required: body.replaceAll('{', '').replaceAll('}', '').replaceAll(' ', '').split(',').filter(i => i !== '')
             };
         };

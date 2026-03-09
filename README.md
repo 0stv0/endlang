@@ -85,3 +85,35 @@ setResponse: (code: number, body: Record<string, any>) => Response; // set code 
 setNoCache: () => Response; // set no cache in return
 setAuthHeader: (token: string) => Response; // set token in Bearer {token}
 ```
+
+## Server Config (Update v1.1.0)
+```ts
+import { Server } from '@0stv0/endlang';
+
+let sv: Server = new Server(4000, async() =>
+{
+    console.log('API listening on http://localhost:4000/');
+}, {
+    generateDocs: true, // default false
+    cors: 'http://localhost:3000' // default none
+});
+await sv.listen();
+
+// generateDocs: boolean -> auto generates all endpoints descriptions in docs directory (Directory is auto-created)
+// cors: string -> set cors url
+```
+
+## Query Checker & Description (Update v1.1.0)
+```bash
+GROUP /user/v1;
+
+PATH /test;
+METHOD GET;
+
+HANDLER testHandler.handler;
+MIDDLE testMiddle.middle1 & testMiddle.middle2;
+
+DESC Some description of route; # Description is exported in autodocs generator.
+
+QUERY { id, someKey }; # Same as body but this is checker for query params. Works with every method.
+```

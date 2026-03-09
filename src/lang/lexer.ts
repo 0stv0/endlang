@@ -1,4 +1,4 @@
-type TokenType = 'PATH' | 'METHOD' | 'CONTENT' | 'SEMICOLON' | 'AND' | 'MIDDLE' | 'HANDLER' | 'GROUP' | 'BODY';
+type TokenType = 'PATH' | 'METHOD' | 'CONTENT' | 'SEMICOLON' | 'AND' | 'MIDDLE' | 'HANDLER' | 'GROUP' | 'BODY' | 'QUERY' | 'DESC';
 interface Token {
     type: TokenType;
     value: string;
@@ -48,6 +48,12 @@ class Lexer {
                 this.cursor += 6;
                 continue;
             };
+            if (this.input.toLowerCase().startsWith('query', this.cursor))
+            {
+                tokens.push({type: 'QUERY', value: 'query'});
+                this.cursor += 5;
+                continue;
+            }
             if (this.input.toLowerCase().startsWith('group', this.cursor))
             {
                 tokens.push({type: 'GROUP', value: 'group'});
@@ -57,6 +63,12 @@ class Lexer {
             if (this.input.toLowerCase().startsWith('body', this.cursor))
             {
                 tokens.push({type: 'BODY', value: 'body'});
+                this.cursor += 4;
+                continue;
+            };
+            if (this.input.toLowerCase().startsWith('desc', this.cursor))
+            {
+                tokens.push({type: 'DESC', value: 'desc'});
                 this.cursor += 4;
                 continue;
             };
