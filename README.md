@@ -24,9 +24,9 @@ PATH /test; # last part of path or full if group not setted
 METHOD POST; # GET | POST | PUT | DELETE
 
 HANDLER testHandler.handler; # file in handlers directory and exported handler function name (file.function)
-MIDDLE testMiddle.middle1 & testMiddle.middle2 # middlewares in the same format as handler (add as many you want) (Optional)
+MIDDLE testMiddle.middle1 & testMiddle.middle2; # middlewares in the same format as handler (add as many you want) (Optional)
 
-BODY { name, lastname, email } # verify wheter the payload contains all these specific fields (no less, no more) (Optional)
+BODY { name, lastname, email }; # verify wheter the payload contains all these specific fields (no less, no more) (Optional)
 ```
 
 ## Dev Mode
