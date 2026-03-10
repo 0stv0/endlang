@@ -163,6 +163,30 @@ class Parser {
                 type: 'QueryStatement',
                 required: body.replaceAll('{', '').replaceAll('}', '').replaceAll(' ', '').split(',').filter(i => i !== '')
             };
+        }
+        else if (currentToken.type === 'MAX_SIZE')
+        {
+            this.cursor++;
+            let sizeToken: Token = this.tokens[this.cursor] as Token;
+            if (!sizeToken || sizeToken.type !== 'CONTENT')
+                throw new Error(`Parser error: Max Size expected format MAX_SIZE {size} {KB/MB};`);
+            this.cursor++;
+            let typeToken: Token = this.tokens[this.cursor] as Token;
+            if (!typeToken || typeToken.type !== 'CONTENT' || !['KB', 'MB'].includes(typeToken.value))
+                throw new Error(`Parser error: Max Size expected format MAX_SIZE {size} {KB/MB};`);
+            this.cursor++;
+            let semicolon: Token = this.tokens[this.cursor] as Token;
+            if (!semicolon || semicolon.type !== 'SEMICOLON')
+                throw new Error('Parser error: Expected semicolon after query statement!');
+            this.cursor++;
+
+            let size: number = typeToken.value === 'KB' ? 
+                Number.parseFloat(sizeToken.value) * 1024:
+                Number.parseFloat(sizeToken.value) * 1048576;
+            return {
+                type: 'MaxSizeStatement',
+                size: size
+            };
         };
         this.cursor++;
         return null;

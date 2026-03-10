@@ -6,6 +6,7 @@ interface Route {
     body: string[];
     query: string[];
     description: string;
+    max_size: number;
 };
 export type {
     Route

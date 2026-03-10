@@ -1,4 +1,4 @@
-type TokenType = 'PATH' | 'METHOD' | 'CONTENT' | 'SEMICOLON' | 'AND' | 'MIDDLE' | 'HANDLER' | 'GROUP' | 'BODY' | 'QUERY' | 'DESC';
+type TokenType = 'PATH' | 'METHOD' | 'CONTENT' | 'SEMICOLON' | 'AND' | 'MIDDLE' | 'HANDLER' | 'GROUP' | 'BODY' | 'QUERY' | 'DESC' | 'MAX_SIZE';
 interface Token {
     type: TokenType;
     value: string;
@@ -70,6 +70,11 @@ class Lexer {
             {
                 tokens.push({type: 'DESC', value: 'desc'});
                 this.cursor += 4;
+                continue;
+            };
+            if (this.input.toLowerCase().startsWith('max_size', this.cursor))
+            {
+                tokens.push({type: 'MAX_SIZE', value: 'max_size'});
                 continue;
             };
             if (char === ';')
