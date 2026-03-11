@@ -92,7 +92,9 @@ class Server {
         if (method !== 'GET')
             try
             {
-                const raw: [boolean, string] = await this.getBody(req);
+                const raw: [boolean, string] = route.max_size ? 
+                    await this.getBody(req, route.max_size) :
+                    await this.getBody(req);
                 if (raw[0])
                     return this.writeResponse(res, 403, {error: 'Payload too big.'}, {});
                 else
