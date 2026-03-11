@@ -95,7 +95,7 @@ class Server {
                 const raw: [boolean, string] = route.max_size ? 
                     await this.getBody(req, route.max_size) :
                     await this.getBody(req);
-                if (raw[0])
+                if (!raw[0])
                     return this.writeResponse(res, 403, {error: 'Payload too big.'}, {});
                 else
                     body = JSON.parse(raw[1]);
