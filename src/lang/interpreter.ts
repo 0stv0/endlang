@@ -39,7 +39,7 @@ class Interpreter {
             body: body?.required ?? [],
             query: query?.required ?? [],
             description: desc?.description ?? '',
-            max_size: size?.size ?? -1
+            max_size: size?.size ?? 0
         };
         server.addRoute(route);
     };

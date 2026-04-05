@@ -96,7 +96,7 @@ class Server {
         if (method !== 'GET')
             try
             {
-                const raw: [boolean, string] = route.max_size ? 
+                const raw: [boolean, string] = (route.max_size && route.max_size > 0) ? 
                     await this.getBody(req, route.max_size) :
                     await this.getBody(req);
                 if (!raw[0])
