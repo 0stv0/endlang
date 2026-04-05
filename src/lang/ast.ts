@@ -39,12 +39,6 @@ interface DescNode
     type: 'DescStatement',
     description: string;
 };
-interface MaxSizeNode
-{
-    type: 'MaxSizeStatement';
-    size: number;
-};
-
 // LOGIC
 interface AST {
     statements: (
@@ -55,8 +49,7 @@ interface AST {
         GroupNode |
         BodyNode |
         QueryNode |
-        DescNode |
-        MaxSizeNode
+        DescNode
     )[]
 };
 const getDefaultAST = (): AST =>
@@ -76,6 +69,5 @@ export type {
     GroupNode,
     BodyNode,
     QueryNode,
-    DescNode,
-    MaxSizeNode
+    DescNode
 };

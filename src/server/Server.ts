@@ -33,7 +33,7 @@ class Server {
         res.writeHead(code, { ...headers, 'Content-Type': 'application/json' });
         res.end(JSON.stringify(body));
     };
-    private getBody = (req: IncomingMessage, max?: number): Promise<[boolean, string]> => new Promise((resolve, reject) =>
+    private getBody = (req: IncomingMessage, max?: number): Promise<string> => new Promise((resolve, reject) =>
     {
         let body         = '';
         let size: number = -1;
@@ -41,12 +41,10 @@ class Server {
         {
             body += chunk.toString();
             size += chunk.length;
-            if (max && size > max)
-                resolve([false, body]);
         });
         req.on('end', () =>
         {
-            resolve([true, body]);
+            resolve(body);
         });
         req.on('error', (e) =>
         {
@@ -96,13 +94,8 @@ class Server {
         if (method !== 'GET')
             try
             {
-                const raw: [boolean, string] = (route.max_size && route.max_size > 0) ? 
-                    await this.getBody(req, route.max_size) :
-                    await this.getBody(req);
-                if (!raw[0])
-                    return this.writeResponse(res, 403, {error: 'Payload too big.'}, {});
-                else
-                    body = JSON.parse(raw[1]);
+                const raw: string = await this.getBody(req);
+                body = JSON.parse(raw);
             }
             catch
             {

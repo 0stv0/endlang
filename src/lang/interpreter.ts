@@ -1,6 +1,6 @@
 import type { Server } from "../server/Server.js";
 import type { Route } from "../types/Route.js";
-import type { AST, BodyNode, DescNode, GroupNode, HandlerNode, MaxSizeNode, MethodNode, MiddleNode, PathNode, QueryNode } from "./ast.js";
+import type { AST, BodyNode, DescNode, GroupNode, HandlerNode, MethodNode, MiddleNode, PathNode, QueryNode } from "./ast.js";
 
 class Interpreter {
     private readonly ast: AST;
@@ -30,7 +30,6 @@ class Interpreter {
         let body: BodyNode | undefined    = this.ast.statements.find(s => s.type === 'BodyStatement');
         let query: QueryNode | undefined  = this.ast.statements.find(s => s.type === 'QueryStatement');
         let desc: DescNode | undefined    = this.ast.statements.find(s => s.type === 'DescStatement');
-        let size: MaxSizeNode | undefined = this.ast.statements.find(s => s.type === 'MaxSizeStatement');
         let route: Route = {
             path: fullPath,
             method: method.method,
@@ -38,8 +37,7 @@ class Interpreter {
             middles: mHandlers,
             body: body?.required ?? [],
             query: query?.required ?? [],
-            description: desc?.description ?? '',
-            max_size: size?.size ?? 0
+            description: desc?.description ?? ''
         };
         server.addRoute(route);
     };

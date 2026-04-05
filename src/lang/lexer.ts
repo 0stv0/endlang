@@ -72,11 +72,6 @@ class Lexer {
                 this.cursor += 4;
                 continue;
             };
-            if (this.input.toLowerCase().startsWith('max_size', this.cursor))
-            {
-                tokens.push({type: 'MAX_SIZE', value: 'max_size'});
-                continue;
-            };
             if (char === ';')
             {
                 tokens.push({type: 'SEMICOLON', value: ';'});
