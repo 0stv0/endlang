@@ -56,6 +56,17 @@ class Server {
     private handleRoute = async(req: IncomingMessage, res: ServerResponse): Promise<void> =>
     {
         let { method, url } = req;
+
+        // CORS
+        if (this.config && this.config.cors)
+            res.setHeader('Access-Control-Allow-Origin', this.config.cors);
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        if (method === 'OPTIONS') 
+            return this.writeResponse(res, 204, {}, {});
+
+        // Route Finder
         let urlPart: string = (url as string).split("?")[0] as string;
         let route: Route | undefined = this.routes.find(r => r.path === urlPart && r.method === method);
         if (!route)
@@ -64,13 +75,6 @@ class Server {
             return;
         };
 
-        // CORS
-        if (this.config && this.config.cors)
-            res.setHeader('Access-Control-Allow-Origin', this.config.cors);
-        res.setHeader('Access-Control-Allow-Credentials', 'true');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        
         // Query Params
         let query: Record<string, string> = {};
         let furl: string                  = url as string;
