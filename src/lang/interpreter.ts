@@ -17,7 +17,7 @@ class Interpreter {
 
         let handler: HandlerNode | undefined = this.ast.statements.find(s => s.type === 'HandlerStatement');
         if (!handler)
-            throw new Error(`Interpeter error: No handler in route!`);
+            throw new Error(`Interpeter error: No handler in route! (${path.path})`);
 
         let middles: MiddleNode | undefined = this.ast.statements.find(s => s.type === 'MiddleStatement');
         let mHandlers: string[] = middles ? middles.handlers : [];
